@@ -1,0 +1,30 @@
+@import '../../theme/_colors.scss';
+
+.container {
+  padding: 0;
+  margin: 0;
+  display: flex;
+
+  .ship {
+    height: 8px;
+    margin-bottom: 12px;
+    &:not(:first-child) {
+      margin-left: 7px;
+    }
+
+    .spot {
+      width: 8px;
+      height: 8px;
+      display: inline-block;
+      background-color: $miniShipColor;
+
+      &.sinked {
+        background-color: $miniShipSinkedColor;
+      }
+
+      &:not(:first-child) {
+        margin-left: 1px;
+      }
+    }
+  }
+}

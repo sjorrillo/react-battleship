@@ -1,0 +1,165 @@
+@use 'sass:math';
+@import '../../theme/_colors.scss';
+
+@mixin crossLine($degres) {
+  content: ' ';
+  position: absolute;
+  top: -6.5px;
+  bottom: 0;
+  left: calc(50% - 1px);
+  height: (math.sqrt(math.pow(32, 2) + math.pow(32, 2)) * 1px) - 2px;
+  width: 2px;
+  background-color: $crossColor;
+  transform: rotate($degres);
+  z-index: 99;
+}
+
+@mixin crossBorders($direction) {
+  content: ' ';
+  position: absolute;
+  @if $direction == 'horizontal' {
+    height: 2px;
+    width: $SPOT_SIZE;
+  } @else {
+    height: $SPOT_SIZE;
+    width: 2px;
+  }
+  background-color: $crossColor;
+  z-index: 100;
+}
+
+$SPOT_SIZE: 32px;
+
+.board {
+
+  display: flex;
+
+  .column {
+
+    border-bottom: 1px solid $gridColor;
+    &:first-child {
+      border-left: 1px solid $gridColor;
+    }
+
+    .spot {
+      width: $SPOT_SIZE;
+      height: $SPOT_SIZE;
+      box-sizing: border-box;
+      border-right: 1px solid $gridColor;
+      border-top: 1px solid $gridColor;
+      position: relative;
+
+      &.pressedSpot {
+        background-color: $gridCellPressedBg;
+      }
+
+      &.xSpot {
+        background: $crossBg;
+        border-right-color: $crossColor;
+        border-top-color: $crossColor;
+
+        &.hint {
+          background: $hintBg;
+          border-right-color: $gridColor;
+          border-top-color: $gridColor;
+        }
+
+        .top {
+          &::after {
+             @include crossBorders('horizontal');
+             top: -1px;
+          }
+
+          &.hint::after {
+            background-color: $hintColor;
+          }
+        }
+
+        .bottom {
+          &::after {
+            @include crossBorders('horizontal');
+            bottom: -1px;
+          }
+
+          &.hint::after {
+            background-color: $hintColor;
+          }
+        }
+
+        .left {
+          &::after {
+            @include crossBorders('vertical');
+            left: -1px
+          }
+
+          &.hint::after {
+            background-color: $hintColor;
+          }
+        }
+
+        .right {
+          &::after {
+            @include crossBorders('vertical');
+            right: -1px;
+          }
+
+          &.hint::after {
+            background-color: $hintColor;
+          }
+        }
+      }
+
+      &:not(.pressedSpot):not(.xSpot):not(.hint):hover {
+        background-color: $gridCellHoverBg;
+        cursor: pointer;
+
+        &::after {
+          content: ' ';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          outline: 2px solid $gridCellHoverBorder;
+          z-index: 100;
+        }
+      }
+
+      .x {
+        &::after {
+          @include crossLine(-45deg);
+        }
+
+        &::before {
+          @include crossLine(45deg);
+        }
+      }
+
+      .pressed {
+        position: absolute;
+        top: calc(50% - 2px);
+        left: calc(50% - 2px);
+        height: 4px;
+        width: 4px;
+        position:absolute;
+        background-color: $gridCellPressed;
+        border-radius: 50%;
+      }
+    }
+
+    .marker {
+      position: absolute;
+      font-size: 0.8rem;
+
+      &.columnMarker {
+        top: -1.8em;
+        left: 40%;
+      }
+
+      &.rowMarker {
+        left: -1.8em;
+        top: 25%;
+      }
+    }
+  }
+}
