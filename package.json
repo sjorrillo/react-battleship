@@ -5,13 +5,14 @@
   "scripts": {
     "start": "bnr start",
     "build": "bnr build",
-    "test": "react-scripts test",
+    "test_": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "npm run lint-files -- src src --ext .js,.ts,.tsx",
     "lint:fix": "npm run lint -- --fix ",
     "lint-files": "eslint --cache --cache-location='.cache/' -f friendly",
     "type-check": "tsc --pretty --noEmit",
     "type-check:watch": "npm run type-check --  --watch",
+    "test": "FORCE_COLOR=true TZ=UTC node --max-old-space-size=4096 node_modules/.bin/jest --notify --logHeapUsage --detectOpenHandles --config jest.config.js",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -54,10 +55,15 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-localstorage-mock": "^2.4.19",
     "lint-staged": "^12.3.7",
+    "node-notifier": "^10.0.1",
     "prettier": "^2.6.0",
     "sass": "^1.49.9",
-    "sass-lint-auto-fix": "^0.21.2"
+    "sass-lint-auto-fix": "^0.21.2",
+    "ts-jest": "^27.1.3"
   },
   "betterScripts": {
     "build": {

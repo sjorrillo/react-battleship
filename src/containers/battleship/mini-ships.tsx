@@ -27,17 +27,17 @@ export const MiniShips: React.FC<IOwnProps> = ({ className, ships, sinkedShips =
   return (
     <div className={className}>
       {battleships?.map((row) => (
-        <div key={row[0]} className={styles.container} data-id={row[0]}>
+        <div key={row[0]} className={styles.container} data-testid={row[0]}>
           {row[1].map((node) => {
             const key = Object.keys(node)[0];
             const isSinked = sinkedShips?.some((it) => it === key);
             return (
-              <div key={key} className={styles.ship} data-id={key}>
+              <div key={key} className={styles.ship} data-testid={key}>
                 {node[key].cells.map((item) => (
                   <span
                     key={item}
                     className={classNames(styles.spot, { [styles.sinked]: isSinked })}
-                    data-id={item}
+                    data-testid={item}
                   />
                 ))}
               </div>

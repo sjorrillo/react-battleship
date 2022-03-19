@@ -64,7 +64,7 @@ export const Ships: React.FC<IOwnProps> = ({
                   [styles.xSpot]: cellX,
                   [styles.hint]: displayHints,
                 })}
-                data-id={cell}
+                data-testid={cell}
                 onClick={() => !pressed && !displayHints && onCellClick(cell)}
               >
                 {row === '1' && (
@@ -101,7 +101,7 @@ export const Ships: React.FC<IOwnProps> = ({
       {positions.map((position) => {
         const column = position[0].split(':')[0];
         return (
-          <div key={column} className={styles.column} data-id={column}>
+          <div key={column} className={styles.column} data-testid={column}>
             {drawColumn(position)}
           </div>
         );
