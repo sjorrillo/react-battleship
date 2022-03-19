@@ -32,33 +32,42 @@ export const StartNewDialog: React.FC<IOwnProps> = ({ open, level, gameAttemps, 
       attemps: gameAttemps,
     },
   });
-  const { handleSubmit: submitWrapper, formState: { errors } } = methods;
+  const {
+    handleSubmit: submitWrapper,
+    formState: { errors },
+  } = methods;
 
-  return (<Dialog open={open} fullScreen={fullScreen}>
-       <DialogTitle id="responsive-dialog-title">
-          {"Start New Game"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Insert the number of attemps:
-          </DialogContentText>
-          <FormProvider {...methods}>
-            <Box component="form" noValidate>
-              <Controller
-                name="attemps"
-                render={({ field: { onChange, value }}) => {
-                  return (
-                    <TextField label="Attemps" variant="standard" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} value={value} error={!!errors.attemps?.message} helperText={errors.attemps?.message} onChange={({ target }) => onChange(target.value)} />
-                  )
-                }}
-              />
-            </Box>
-            </FormProvider>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={submitWrapper(onOk)} type="submit" autoFocus>
-            Ok
-          </Button>
-        </DialogActions>
-  </Dialog>);
+  return (
+    <Dialog fullScreen={fullScreen} open={open}>
+      <DialogTitle id="responsive-dialog-title">{'Start New Game'}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Insert the number of attemps:</DialogContentText>
+        <FormProvider {...methods}>
+          <Box component="form" noValidate>
+            <Controller
+              name="attemps"
+              render={({ field: { onChange, value } }) => {
+                return (
+                  <TextField
+                    error={!!errors.attemps?.message}
+                    helperText={errors.attemps?.message}
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                    label="Attemps"
+                    onChange={({ target }) => onChange(target.value)}
+                    value={value}
+                    variant="standard"
+                  />
+                );
+              }}
+            />
+          </Box>
+        </FormProvider>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={submitWrapper(onOk)} type="submit" autoFocus>
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };

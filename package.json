@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "bnr start",
+    "build": "bnr build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npm run lint-files -- src src --ext .js,.ts,.tsx",
+    "lint:fix": "npm run lint -- --fix ",
+    "lint-files": "eslint --cache --cache-location='.cache/' -f friendly",
+    "type-check": "tsc --pretty --noEmit",
+    "type-check:watch": "npm run type-check --  --watch",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -27,6 +33,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
+    "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.26",
@@ -34,7 +41,49 @@
     "@types/react-dom": "^17.0.13",
     "@types/react-router-dom": "^5.3.3",
     "@types/yup": "^0.29.13",
-    "sass": "^1.49.9"
+    "better-npm-run": "^0.1.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-formatter-friendly": "^7.0.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-jest-dom": "^3.9.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.6.0",
+    "sass": "^1.49.9",
+    "sass-lint-auto-fix": "^0.21.2"
+  },
+  "betterScripts": {
+    "build": {
+      "command": "react-scripts build",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "start": {
+      "command": "react-scripts start",
+      "env": {
+        "NODE_ENV": "development",
+        "ESLINT_NO_DEV_ERRORS": true,
+        "PORT": 3500
+      }
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx}": [
+      "eslint --fix -f friendly",
+      "prettier --write"
+    ],
+    "src/**/*.scss": [
+      "sass-lint-auto-fix",
+      "sass-lint -v"
+    ]
   },
   "eslintConfig": {
     "extends": [

@@ -1,4 +1,4 @@
-import { AnyObject } from "./base-types";
+import { AnyObject } from './base-types';
 
 /**
  * Always accepts a string JSON and returns a JSON object

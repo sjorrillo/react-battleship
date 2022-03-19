@@ -13,7 +13,7 @@ interface IBoardPositions {
 
 interface IShipSpot {
   direction: Direction;
-  readonly cells: string [];
+  readonly cells: string[];
   spots: string[];
 }
 
@@ -27,25 +27,26 @@ export interface IBattleshipBoard {
   positions: string[][];
 }
 
-export type Direction = "horizontal" | "vertical";
+export type Direction = 'horizontal' | 'vertical';
 
 const buildKey = (column: string, row: number): string => `${column}:${row}`;
 
 const buildBoard = (): IBoardPositions => {
-  const columns = Array.from(Array(BOARD_SIZE), (_, index) =>
-    String.fromCharCode(65 + index)
-  );
+  const columns = Array.from(Array(BOARD_SIZE), (_, index) => String.fromCharCode(65 + index));
   const rows = Array.from(Array(BOARD_SIZE), (_, index) => 1 + index);
 
-  return columns.reduce((acc, column, index) => {
-    acc.positions[index] = [];
-    return rows.reduce((iacc, row) => {
-      const spotName = buildKey(column, row);
-      iacc.board[spotName] = null;
-      iacc.positions[index].push(spotName);
-      return iacc;
-    }, acc);
-  }, { board: {}, positions: [] } as IBoardPositions);
+  return columns.reduce(
+    (acc, column, index) => {
+      acc.positions[index] = [];
+      return rows.reduce((iacc, row) => {
+        const spotName = buildKey(column, row);
+        iacc.board[spotName] = null;
+        iacc.positions[index].push(spotName);
+        return iacc;
+      }, acc);
+    },
+    { board: {}, positions: [] } as IBoardPositions
+  );
 };
 
 const getStartingPoint = (min: number, max: number): number =>
@@ -55,29 +56,30 @@ const getShipBoardSpots = (
   size: number,
   row: number,
   column: number,
-  direction: "horizontal" | "vertical"
+  direction: 'horizontal' | 'vertical'
 ): string[] => {
-  if (direction === "horizontal") {
+  if (direction === 'horizontal') {
     return Array.from(Array(size), (_, index) =>
       buildKey(String.fromCharCode(column + index), row)
     );
   }
 
-  return Array.from(Array(size), (_, index) =>
-    buildKey(String.fromCharCode(column), row + index)
-  );
+  return Array.from(Array(size), (_, index) => buildKey(String.fromCharCode(column), row + index));
 };
 
-const drawShipBoard = (board: IBoard, size: number): { positions: string[], direction: Direction } => {
+const drawShipBoard = (
+  board: IBoard,
+  size: number
+): { positions: string[]; direction: Direction } => {
   const row = getStartingPoint(1, MAX_ROW + 1);
   const column = getStartingPoint(65, MAX_COLUMN + 1);
 
   let positions: string[] = [];
-  let direction: Direction = "horizontal";
+  let direction: Direction = 'horizontal';
   if (column + size <= MAX_COLUMN) {
     positions = getShipBoardSpots(size, row, column, direction);
   } else if (row + size <= MAX_ROW) {
-    direction = "vertical";
+    direction = 'vertical';
     positions = getShipBoardSpots(size, row, column, direction);
   }
 
@@ -100,7 +102,7 @@ export const drawBoard = (): IBattleshipBoard => {
   const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1].reduce((acc, size, index) => {
     const { direction, positions } = drawShipBoard(board, size);
     const shipName = `${size}_${index}`;
-    positions.forEach(position =>  {
+    positions.forEach((position) => {
       board[position] = shipName;
     });
     acc[shipName] = {

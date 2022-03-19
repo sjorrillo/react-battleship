@@ -2,9 +2,9 @@ import React from 'react';
 import { IBattleshipBoard } from '../utils/battleship-builder';
 
 export enum Level {
-  Easy = "Easy",
-  Mediun = "Mediun",
-  Hard = "Hard",
+  Easy = 'Easy',
+  Mediun = 'Mediun',
+  Hard = 'Hard',
 }
 
 export interface IPressedCell {

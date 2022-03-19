@@ -19,11 +19,18 @@ interface ICellsWithX {
     bottom: boolean;
     left: boolean;
     right: boolean;
-  }
+  };
 }
-export const Ships: React.FC<IOwnProps> = ({ positions, ships, onCellClick, displayHints, sinkedShips = [], pressedCells = [] }) => {
+export const Ships: React.FC<IOwnProps> = ({
+  positions,
+  ships,
+  onCellClick,
+  displayHints,
+  sinkedShips = [],
+  pressedCells = [],
+}) => {
   const cellsWithX = React.useMemo(() => {
-    const items = displayHints ? Object.keys(ships) :  sinkedShips;
+    const items = displayHints ? Object.keys(ships) : sinkedShips;
 
     return items.reduce((acc, key) => {
       const { cells, direction } = ships[key];
@@ -38,48 +45,67 @@ export const Ships: React.FC<IOwnProps> = ({ positions, ships, onCellClick, disp
         return iacc;
       }, acc as ICellsWithX);
     }, {} as ICellsWithX);
-  }
-  , [ships, sinkedShips, displayHints]);
+  }, [ships, sinkedShips, displayHints]);
 
-  const drawColumn = React.useCallback((columns: string[]) => {
-    return (
-      <>
-        {columns.map(cell => {
-          const [column, row] =  cell.split(':');
-          const pressed = pressedCells?.find(it => it.name === cell);
-          const cellX = cellsWithX[cell];
+  const drawColumn = React.useCallback(
+    (columns: string[]) => {
+      return (
+        <>
+          {columns.map((cell) => {
+            const [column, row] = cell.split(':');
+            const pressed = pressedCells?.find((it) => it.name === cell);
+            const cellX = cellsWithX[cell];
 
-          return (
-            <div key={cell} data-id={cell} className={classNames(styles.spot, {
-                [styles.pressedSpot]: pressed && !displayHints,
-                [styles.xSpot]: cellX,
-                [styles.hint]: displayHints,
-              })} onClick={() => !pressed && !displayHints && onCellClick(cell)}>
-              {row === '1' && (<span className={classNames(styles.marker, styles.columnMarker)}>{column}</span>)}
-              {column === 'A' && (<span className={classNames(styles.marker, styles.rowMarker)}>{row}</span>)}
-              {!displayHints && pressed && (<span className={styles.pressed} />)}
-              {!displayHints && (cellX || pressed?.hit) && (<span className={styles.x} />)}
-              {cellX?.top && (<span className={classNames(styles.top, { [styles.hint]: displayHints })} />)}
-              {cellX?.bottom && (<span className={classNames(styles.bottom, { [styles.hint]: displayHints })} />)}
-              {cellX?.left && (<span className={classNames(styles.left, { [styles.hint]: displayHints })} />)}
-              {cellX?.right && (<span className={classNames(styles.right, { [styles.hint]: displayHints })} />)}
-            </div>
-          );
-        })}
-      </>
-    )
-  }, [onCellClick, cellsWithX, pressedCells, displayHints]);
+            return (
+              <div
+                key={cell}
+                className={classNames(styles.spot, {
+                  [styles.pressedSpot]: pressed && !displayHints,
+                  [styles.xSpot]: cellX,
+                  [styles.hint]: displayHints,
+                })}
+                data-id={cell}
+                onClick={() => !pressed && !displayHints && onCellClick(cell)}
+              >
+                {row === '1' && (
+                  <span className={classNames(styles.marker, styles.columnMarker)}>{column}</span>
+                )}
+                {column === 'A' && (
+                  <span className={classNames(styles.marker, styles.rowMarker)}>{row}</span>
+                )}
+                {!displayHints && pressed && <span className={styles.pressed} />}
+                {!displayHints && (cellX || pressed?.hit) && <span className={styles.x} />}
+                {cellX?.top && (
+                  <span className={classNames(styles.top, { [styles.hint]: displayHints })} />
+                )}
+                {cellX?.bottom && (
+                  <span className={classNames(styles.bottom, { [styles.hint]: displayHints })} />
+                )}
+                {cellX?.left && (
+                  <span className={classNames(styles.left, { [styles.hint]: displayHints })} />
+                )}
+                {cellX?.right && (
+                  <span className={classNames(styles.right, { [styles.hint]: displayHints })} />
+                )}
+              </div>
+            );
+          })}
+        </>
+      );
+    },
+    [onCellClick, cellsWithX, pressedCells, displayHints]
+  );
 
   return (
     <div className={styles.board}>
-      {
-        positions.map(position => {
-          const column = position[0].split(':')[0];
-          return (
-            <div key={column} data-id={column} className={styles.column}>{drawColumn(position)}</div>
-          );
-        })
-      }
+      {positions.map((position) => {
+        const column = position[0].split(':')[0];
+        return (
+          <div key={column} className={styles.column} data-id={column}>
+            {drawColumn(position)}
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -1,12 +1,11 @@
-import tryParse from "../try.parse";
+import tryParse from '../try.parse';
 
 const { localStorage } = window;
 
 export const save = (key: string, value: any) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-  } catch (err) {
-  }
+  } catch (err) {}
 };
 
 export const get = (key: string, defVal: any) => {
@@ -21,13 +20,11 @@ export const get = (key: string, defVal: any) => {
 export const clear = (key: string) => {
   try {
     localStorage.removeItem(key);
-  } catch (err) {
-  }
+  } catch (err) {}
 };
 
 export const clearAll = () => {
   try {
     localStorage.clear();
-  } catch (err) {
-  }
+  } catch (err) {}
 };

@@ -16,10 +16,12 @@ import { Paths } from '../../constants/route-paths';
 import { useNavigate } from 'react-router-dom';
 
 const pages = [{ text: 'Board', path: Paths.HOME }];
-const settings = [{ text: 'Setup', path: Paths.GAME.SETUP }, { text: 'Game History', path: Paths.GAME.HISTORY }];
+const settings = [
+  { text: 'Setup', path: Paths.GAME.SETUP },
+  { text: 'Game History', path: Paths.GAME.HISTORY },
+];
 
-interface IOwnProps {
-}
+interface IOwnProps {}
 
 const PageAppBar: React.FC<IOwnProps> = () => {
   const theme = useTheme();
@@ -49,42 +51,42 @@ const PageAppBar: React.FC<IOwnProps> = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
-            noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            variant="h6"
+            noWrap
           >
             React Battleship
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
-              aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              aria-label="account of current user"
               color="inherit"
+              onClick={handleOpenNavMenu}
+              size="large"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
               }}
-              keepMounted
+              id="menu-appbar"
+              onClose={() => handleCloseNavMenu()}
+              open={Boolean(anchorElNav)}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
               transformOrigin={{
                 vertical: 'top',
                 horizontal: 'left',
               }}
-              open={Boolean(anchorElNav)}
-              onClose={() => handleCloseNavMenu()}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+              keepMounted
             >
               {pages.map((page) => (
                 <MenuItem key={page.text} onClick={() => handleCloseNavMenu(page.path)}>
@@ -94,10 +96,10 @@ const PageAppBar: React.FC<IOwnProps> = () => {
             </Menu>
           </Box>
           <Typography
-            variant="h6"
-            noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            variant="h6"
+            noWrap
           >
             React Battleship
           </Typography>
@@ -120,20 +122,20 @@ const PageAppBar: React.FC<IOwnProps> = () => {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              keepMounted
+              id="menu-appbar"
+              onClose={() => handleCloseUserMenu()}
+              open={Boolean(anchorElUser)}
+              sx={{ mt: '45px' }}
               transformOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              open={Boolean(anchorElUser)}
-              onClose={() => handleCloseUserMenu()}
+              keepMounted
             >
               {settings.map((setting) => (
                 <MenuItem key={setting.text} onClick={() => handleCloseUserMenu(setting.path)}>

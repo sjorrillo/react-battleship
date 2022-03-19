@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -27,34 +28,34 @@ export const EndGameDialog: React.FC<IOwnProps> = ({ open, type, onOk, onClose, 
     if (type === 'win') {
       return (
         <Typography>
-          Congrats you win the game in <Typography color="primary"  component="span" sx={{ fontWeight: 'bold' }}>{attemps}</Typography> attemps. Do you want to try again?
+          Congrats you win the game in{' '}
+          <Typography color="primary" component="span" sx={{ fontWeight: 'bold' }}>
+            {attemps}
+          </Typography>{' '}
+          attemps. Do you want to try again?
         </Typography>
       );
     }
 
-    return (
-      <Typography>
-        You left without attempts. Do you want to try again?
-      </Typography>
-    )
+    return <Typography>You left without attempts. Do you want to try again?</Typography>;
   }, [type, attemps]);
 
-  return (<Dialog open={open} fullScreen={fullScreen}>
-     <DialogTitle id="responsive-dialog-title">
-          {type === 'win' ? "You win" : "Game Over"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText component="div">
-            {bodyContent}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} autoFocus>
-            No
-          </Button>
-          <Button onClick={onOk} autoFocus>
-            let's try
-          </Button>
-        </DialogActions>
-  </Dialog>);
+  return (
+    <Dialog fullScreen={fullScreen} open={open}>
+      <DialogTitle id="responsive-dialog-title">
+        {type === 'win' ? 'You win' : 'Game Over'}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText component="div">{bodyContent}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} autoFocus>
+          No
+        </Button>
+        <Button onClick={onOk} autoFocus>
+          let's try
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };

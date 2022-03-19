@@ -1,6 +1,6 @@
-import { MIN_ATTEMPS, MAX_ATTEMPS } from './../constants/application';
+import { MAX_ATTEMPS, MIN_ATTEMPS } from './../constants/application';
 /* eslint-disable no-template-curly-in-string */
-import { InferType, object, string, number } from 'yup';
+import { InferType, number, object, string } from 'yup';
 import { Level } from '../hooks/use-battleship-context';
 
 export const GameStartSchema = object({
@@ -11,12 +11,12 @@ export const GameStartSchema = object({
     .min(MIN_ATTEMPS)
     .when('level', {
       is: Level.Hard,
-      then: number().typeError('Attemps must be a number').max(MAX_ATTEMPS.Hard)
+      then: number().typeError('Attemps must be a number').max(MAX_ATTEMPS.Hard),
     })
     .when('level', {
       is: Level.Mediun,
-      then: number().typeError('Attemps must be a number').max(MAX_ATTEMPS.Mediun)
-    })
+      then: number().typeError('Attemps must be a number').max(MAX_ATTEMPS.Mediun),
+    }),
 });
 
 export type GameStartType = InferType<typeof GameStartSchema>;
